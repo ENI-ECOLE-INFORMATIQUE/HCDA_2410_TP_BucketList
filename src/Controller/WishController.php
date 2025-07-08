@@ -73,10 +73,10 @@ final class WishController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'delete', methods: ['GET'], requirements: ['id'=>'\d+'])]
+    #[Route('/{id}/delete', name: 'delete', requirements: ['id'=>'\d+'], methods: ['GET'])]
     public function delete(Wish $wish,Request $request, EntityManagerInterface $em): Response
     {
-        if($this->isCsrfTokenValid('delete-'.$wish->getId(), $request->get('_token'))) {
+        if($this->isCsrfTokenValid('delete-'.$wish->getId(), $request->get('token'))) {
             try {
                 $em->remove($wish);
                 $em->flush();

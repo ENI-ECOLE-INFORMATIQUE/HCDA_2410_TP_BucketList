@@ -10,7 +10,7 @@
             <p class="card-text">{{ wish.description|nl2br }}</p>
         </div>
         <div class="text-center">
-            <a href="{{ path('app_wish_delete',{'id':wish.id,'token':csrf_token('delete'~wish.id)})}}"
+            <a href="{{ path('app_wish_delete',{'id':wish.id,'token':csrf_token('delete-'~wish.id)})}}"
                class="btn btn-danger mt-2" title="Delete the Wish">Delete</a>
 
             <a href="{{ path('app_wish_update',{'id':wish.id})}}"
