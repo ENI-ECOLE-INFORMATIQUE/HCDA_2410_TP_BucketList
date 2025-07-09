@@ -27,8 +27,11 @@ final class WishController extends AbstractController
     public function create(Request $request, EntityManagerInterface $em, FileUploader $fileUploader): Response
     {
         $wish = new Wish();
+        //On associe le formulaire à notre objet ici wish
         $wishForm = $this->createForm(WishType::class, $wish);
+        //On récupère les données du form et on les injecte dans l'objet wish
         $wishForm->handleRequest($request);
+        //Si le formulaire est soumis et qu'il est valide
         if ($wishForm->isSubmitted() && $wishForm->isValid()) {
             $wish->setIsPublished(true);
             //traitement de l'image
@@ -36,9 +39,12 @@ final class WishController extends AbstractController
             if ($imageFile) {
                 $wish->setFilename($fileUploader->upload($imageFile));
             }
+            //Sauvegarde en BD
             $em->persist($wish);
             $em->flush();
+            //Affiche le message
             $this->addFlash('success', 'Wish successfully created!');
+            //redirige vers la page de détail.
             return $this->redirectToRoute('app_wish_detail', ['id' => $wish->getId()]);
         }
         return $this->render('wish/create.html.twig', [
