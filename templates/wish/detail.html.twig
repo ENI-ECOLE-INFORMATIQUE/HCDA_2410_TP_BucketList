@@ -10,6 +10,7 @@
         {% endif %}
         <div class="card-body">
             <h5 class="card-title">{{ wish.title }}</h5>
+            <p class="card-text">[{{ wish.category.name }}]</p>
             <p class="wish-credit">Created by {{ wish.author }} on {{ wish.dateCreated|date('Y-m-d') }}</p>
             <p class="card-text">{{ wish.description|nl2br }}</p>
         </div>

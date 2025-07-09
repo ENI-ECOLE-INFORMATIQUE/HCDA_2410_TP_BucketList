@@ -16,6 +16,15 @@ class WishRepository extends ServiceEntityRepository
         parent::__construct($registry, Wish::class);
     }
 
+    public function findPublishedWishesWithCategories():?array{
+        $queryBuilder = $this->createQueryBuilder('w');
+        //On ajoute la jointure avec Catégorie, pour éviter de multiplier les requetes.
+        $queryBuilder->join('w.category', 'c')->addSelect('c');
+        $queryBuilder->andWhere('w.isPublished = 1');
+        $queryBuilder->orderBy('w.dateCreated', 'DESC');
+        return $queryBuilder->getQuery()->getResult();
+    }
+
     //    /**
     //     * @return Wish[] Returns an array of Wish objects
     //     */
