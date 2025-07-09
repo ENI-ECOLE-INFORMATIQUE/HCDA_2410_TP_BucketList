@@ -4,10 +4,14 @@ namespace App\Service;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Response;
 
 final class FileUploader
 {
-     public function __construct(private readonly string $targetDirectory){
+    protected string $targetDirectory;
+     public function __construct(){
+
+       $this->targetDirectory = '/uploads/images/wish';
      }
 
      public function upload(UploadedFile $uploadedFile): string{
