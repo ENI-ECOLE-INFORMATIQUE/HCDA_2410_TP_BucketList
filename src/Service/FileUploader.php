@@ -2,16 +2,17 @@
 
 namespace App\Service;
 
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\Response;
+
 
 final class FileUploader
 {
-    protected string $targetDirectory;
-     public function __construct(){
+    private readonly string $targetDirectory;
+     public function __construct(ParameterBagInterface $parameterBag){
 
-       $this->targetDirectory = '/uploads/images/wish';
+       $this->targetDirectory = $parameterBag->get('app.images_wish_directory');
      }
 
      public function upload(UploadedFile $uploadedFile): string{
@@ -35,7 +36,7 @@ final class FileUploader
     public function delete(?string $filename, string $rep): void
     {
         if(null != $filename){
-            if(file_exists($filename)){
+            if(file_exists($rep.'/'.$filename)){
                 unlink($rep.'/'.$filename);
             }
         }

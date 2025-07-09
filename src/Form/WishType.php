@@ -57,6 +57,8 @@ class WishType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
            $wish = $event->getData();
            if($wish && $wish->getFilename() ) {
+               //Cas où on est en modification et qu'une image est déjà présente.
+               //On ajoute une checkbox pour permettre de demander la suppression de l'image.
                $form = $event->getForm();
                $form->add('deleteImage', CheckboxType::class, [
                    'required' => false,
