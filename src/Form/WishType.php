@@ -6,10 +6,14 @@ use App\Entity\Wish;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
 
 class WishType extends AbstractType
 {
@@ -28,7 +32,30 @@ class WishType extends AbstractType
             ->add('dateUpdated', null, [
                 'widget' => 'single_text',
             ])
+            ->add('image', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new Image([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/*',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image',
+                    ])
+                ]
+            ])
         ;
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+           $wish = $event->getData();
+           if($wish && $wish->getFilename() ) {
+               $form = $event->getForm();
+               $form->add('deleteImage', CheckboxType::class, [
+                   'required' => false,
+                   'mapped' => false,
+               ]);
+           }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

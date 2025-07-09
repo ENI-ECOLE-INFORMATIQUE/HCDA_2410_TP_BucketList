@@ -12,6 +12,18 @@
     {{ form_row(wishForm.title) }}
     {{ form_row(wishForm.description) }}
     {{ form_row(wishForm.author) }}
+    <div class="d-flex>">
+        <div class="col-sm-9">
+            {{ form_row(wishForm.image) }}
+        </div>
+        <div class="col-sm-3">
+            {% if wishForm.vars.value.filename != null %}
+                <img src="{{ asset(app_images_wish_directory ~ '/' ~ wishForm.vars.value.filename) }}"
+                     class="img-fluid" alt="image wish">
+                {{ form_row(wishForm.deleteImage) }}
+            {% endif %}
+        </div>
+    </div>
     {{ form_row(wishForm.isPublished) }}
     <button type="submit" class="btn btn-sm btn-primary">
         {{ wishForm.vars.value.id == null ? 'Create' :'Modify' }}
