@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\Wish;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -23,9 +24,14 @@ class WishFixtures extends Fixture
             $wish->setDateCreated(\DateTimeImmutable::createFromMutable($dateCreated));
 
             $wish->setIsPublished($faker->numberBetween(0, 1));
+            $wish->setCategory($this->getReference('c'.mt_rand(1,5), Category::class));
             $manager->persist($wish);
 
         }
         $manager->flush();
+    }
+
+    public function getDependencies(): array{
+        return [CategoryFixtures::class];
     }
 }
