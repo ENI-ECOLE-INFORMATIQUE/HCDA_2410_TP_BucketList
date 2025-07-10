@@ -23,7 +23,7 @@ class CommentType extends AbstractType
             ->add('score',NumberType::class,[
                 'label' => 'Note (entre 0 et 5)',
             ])
-            ->add('dateCreated', null, [
+            /*->add('dateCreated', null, [
                 'widget' => 'single_text',
             ])
             ->add('dateUpdated', null, [
@@ -36,7 +36,7 @@ class CommentType extends AbstractType
             ->add('wish', EntityType::class, [
                 'class' => Wish::class,
                 'choice_label' => 'id',
-            ])
+            ])*/
         ;
     }
 
