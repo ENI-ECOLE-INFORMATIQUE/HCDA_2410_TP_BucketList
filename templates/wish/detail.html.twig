@@ -36,7 +36,7 @@
                    title="Modify the Comment">Modify</a>
             {% endif %}
             {% if app.user and (app.user == comment.user or is_granted('ROLE_ADMIN')) %}
-                <a href="{{ path('comment_delete',{'id':comment.id, ('token':csrf_token('delete'~comment.id))})}}"
+                <a href="{{ path('comment_delete',{'id':comment.id, 'token':csrf_token('delete-'~comment.id)}) }}"
                    class="btn btn-danger btn-sm"
                    title="Delete the Comment">Delete</a>
             {% endif %}

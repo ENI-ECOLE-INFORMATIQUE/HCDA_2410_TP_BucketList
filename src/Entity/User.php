@@ -23,7 +23,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Assert\Length(min: 2, max: 50,
+    #[Assert\Length(min: 2, max: 180,
         minMessage: 'Please enter at least {{ limit }} characters',
         maxMessage: 'Please enter maximum {{ limit }} characters')]
     #[Assert\Regex(pattern: "/^[a-z0-9_-]+$/i",

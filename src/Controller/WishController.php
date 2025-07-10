@@ -28,6 +28,7 @@ final class WishController extends AbstractController
     public function create(Request $request, EntityManagerInterface $em, FileUploader $fileUploader): Response
     {
         $wish = new Wish();
+        //$this->getUser() permet de récupérer l'utilisateur connecté
         $wish->setUser($this->getUser());
         //On associe le formulaire à notre objet ici wish
         $wishForm = $this->createForm(WishType::class, $wish);
@@ -107,7 +108,7 @@ final class WishController extends AbstractController
     #[Route('/{id}/delete', name: 'delete', requirements: ['id'=>'\d+'], methods: ['GET'])]
     public function delete(Wish $wish,Request $request, EntityManagerInterface $em): Response
     {
-        if(!$wish->getUser() === $this->getUser() || $this->isGranted('ROLE_ADMIN')){
+        if(!($wish->getUser() === $this->getUser() || $this->isGranted('ROLE_ADMIN'))){
             throw $this->createAccessDeniedException();
         }
         if($this->isCsrfTokenValid('delete-'.$wish->getId(), $request->get('token'))) {
