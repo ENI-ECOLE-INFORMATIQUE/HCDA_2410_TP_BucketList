@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     app.images_wish_directory: '%kernel.project_dir%/public/uploads/images/wish'
+    app.censurator_file: '%kernel.project_dir%/data/words_censurator.txt'
 services:
     App\Service\FileUploader:
         arguments:
