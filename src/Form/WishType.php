@@ -26,7 +26,6 @@ class WishType extends AbstractType
             ['label' => 'Your idea'])
             ->add('description',TextareaType::class,
                 ['label' => 'Please describe it', 'required' => false])
-            ->add('author', TextType::class,['label' => 'Your username'])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',

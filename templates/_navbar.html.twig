@@ -13,11 +13,33 @@
                        href="{{path("main_home")}}" title="Go Back to Home">Home</a>
                     <a class="nav-link" aria-current="page"
                        href="{{path("app_wish_list")}}" title="All things to do">All Wishes</a>
-                    <a class="nav-link" aria-current="page"
-                       href="{{path("app_wish_create")}}" title="Add your own Ideas !">Add yours</a>
+                   {% if app.user %}
+                        <a class="nav-link" aria-current="page"
+                            href="{{path("app_wish_create")}}" title="Add your own Ideas !">Add yours</a>
+                    {% endif %}
                     <a class="nav-link" aria-current="page"
                        href="{{path("main_about_us")}}" title="About us">About</a>
                 </li>
+            </ul>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_logout') }}" title="Logout">
+                            Logout (Hello {{ app.user.username }})
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_register') }}" title="Create your account">
+                            Register
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}" title="Login">
+                            Login
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
