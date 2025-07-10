@@ -6,6 +6,7 @@ use App\Entity\Wish;
 use App\Form\WishType;
 use App\Repository\WishRepository;
 use App\Service\FileUploader;
+use App\Util\Censurator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +26,9 @@ final class WishController extends AbstractController
     }
 
     #[Route('/create', name: 'create', methods: ['GET','POST'])]
-    public function create(Request $request, EntityManagerInterface $em, FileUploader $fileUploader): Response
+    public function create(Request $request, EntityManagerInterface $em,
+                           FileUploader $fileUploader,
+    Censurator $censurator): Response
     {
         $wish = new Wish();
         //$this->getUser() permet de récupérer l'utilisateur connecté
@@ -36,6 +39,8 @@ final class WishController extends AbstractController
         $wishForm->handleRequest($request);
         //Si le formulaire est soumis et qu'il est valide
         if ($wishForm->isSubmitted() && $wishForm->isValid()) {
+            //Censure les méchants mots
+            $wish->setDescription($censurator->purify($wish->getDescription()));
             $wish->setIsPublished(true);
             //traitement de l'image
             $imageFile = $wishForm->get('image')->getData();
@@ -57,7 +62,8 @@ final class WishController extends AbstractController
 
     #[Route('/{id}/update', name: 'update', methods: ['GET','POST'], requirements: ['id'=>'\d+'])]
     public function update(int $id, WishRepository $wishRepository, Request $request,
-                           EntityManagerInterface $em,FileUploader $fileUploader): Response
+                           EntityManagerInterface $em,FileUploader $fileUploader,
+                           Censurator $censurator): Response
     {
         $wish = $wishRepository->find($id);
         if(!$wish){
@@ -69,6 +75,8 @@ final class WishController extends AbstractController
         $wishForm = $this->createForm(WishType::class, $wish);
         $wishForm->handleRequest($request);
         if ($wishForm->isSubmitted() && $wishForm->isValid()) {
+            //Censure les méchants mots
+            $wish->setDescription($censurator->purify($wish->getDescription()));
             $wish->setDateUpdated(new \DateTimeImmutable());
             //traitement de l'image
             $imageFile = $wishForm->get('image')->getData();
